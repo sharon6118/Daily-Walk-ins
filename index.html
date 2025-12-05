@@ -7,6 +7,7 @@
 <style>
     @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap');
 
+    /* Body & Background */
     body {
         font-family: 'Roboto', sans-serif;
         margin:0;
@@ -25,7 +26,7 @@
         100% {background-position:0% 50%;}
     }
 
-    /* Particle background */
+    /* Particle Animation */
     .particle {
         position: absolute;
         border-radius: 50%;
@@ -33,13 +34,13 @@
         animation: float 20s linear infinite;
         z-index:0;
     }
-
     @keyframes float {
         0% { transform: translateY(0) translateX(0); }
         50% { transform: translateY(-50px) translateX(50px); }
         100% { transform: translateY(0) translateX(0); }
     }
 
+    /* Header */
     header {
         position: relative;
         background: rgba(255,255,255,0.2);
@@ -54,6 +55,7 @@
         z-index: 1;
     }
 
+    /* Container */
     .container {
         position: relative;
         width:90%;
@@ -62,6 +64,7 @@
         z-index: 1;
     }
 
+    /* Filters */
     .filters {
         display:flex;
         flex-wrap:wrap;
@@ -70,7 +73,6 @@
         z-index:1;
         position: relative;
     }
-
     input, select, button {
         padding:12px 15px;
         font-size:16px;
@@ -79,7 +81,6 @@
         flex:1;
         transition:0.2s;
     }
-
     input:focus, select:focus { border-color:#007bff; outline:none; }
     button { 
         background: #007bff;
@@ -90,9 +91,9 @@
         flex:0 0 160px;
         transition: background 0.2s, transform 0.2s;
     }
-
     button:hover { background:#0056b3; transform: translateY(-2px); }
 
+    /* Cards */
     .card {
         background: rgba(255,255,255,0.95);
         padding:20px;
@@ -103,13 +104,10 @@
         position:relative;
         z-index:1;
     }
-
     .card:hover { transform: translateY(-5px); box-shadow:0 10px 25px rgba(0,0,0,0.15); }
-
     .title { font-size:22px; font-weight:700; color:#007bff; margin-bottom:6px; }
     .date { color:#007bff; font-size:14px; margin-bottom:10px; font-weight:500; }
     .info { font-size:15px; line-height:1.6; color:#333; margin-bottom:12px; }
-    
     .apply-btn {
         padding:12px 22px;
         border:none;
@@ -122,9 +120,9 @@
         display:inline-block;
         transition: transform 0.2s, box-shadow 0.2s;
     }
-
     .apply-btn:hover { transform: translateY(-2px); box-shadow:0 5px 15px rgba(0,0,0,0.2); }
 
+    /* Footer */
     footer {
         text-align:center;
         padding:25px;
@@ -147,7 +145,24 @@
     body.dark .date { color:#66b2ff; }
     body.dark .title { color:#66b2ff; }
 
-    @media (max-width:600px){ .filters { flex-direction: column; } button { flex:1; } }
+    /* Responsive Design */
+    @media (max-width:900px){
+        .filters { flex-direction: column; }
+        button { flex:1; }
+        .card { padding:15px; }
+        .title { font-size:20px; }
+        .info { font-size:14px; }
+        .apply-btn { padding:10px 18px; font-size:14px; }
+    }
+
+    @media (max-width:600px){
+        header { font-size:24px; padding:20px; }
+        .card { padding:12px; margin-bottom:15px; }
+        .title { font-size:18px; }
+        .date { font-size:13px; }
+        .info { font-size:13px; }
+        .apply-btn { padding:8px 15px; font-size:13px; }
+    }
 
 </style>
 </head>
