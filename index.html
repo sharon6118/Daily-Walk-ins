@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Daily Walk-ins</title>
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap');
+
+    body {
+        font-family: 'Roboto', sans-serif;
+        margin:0;
+        padding:0;
+        overflow-x: hidden;
+        transition: background 0.3s, color 0.3s;
+        background: linear-gradient(-45deg, #ff9a9e, #fad0c4, #a1c4fd, #c2e9fb);
+        background-size: 400% 400%;
+        animation: gradientBG 15s ease infinite;
+        color: #333;
+    }
+
+    @keyframes gradientBG {
+        0% {background-position:0% 50%;}
+        50% {background-position:100% 50%;}
+        100% {background-position:0% 50%;}
+    }
+
+    /* Particle background */
+    .particle {
+        position: absolute;
+        border-radius: 50%;
+        opacity: 0.3;
+        animation: float 20s linear infinite;
+        z-index:0;
+    }
+
+    @keyframes float {
+        0% { transform: translateY(0) translateX(0); }
+        50% { transform: translateY(-50px) translateX(50px); }
+        100% { transform: translateY(0) translateX(0); }
+    }
+
+    header {
+        position: relative;
+        background: rgba(255,255,255,0.2);
+        backdrop-filter: blur(10px);
+        padding:25px;
+        color:white;
+        text-align:center;
+        font-size:30px;
+        font-weight:700;
+        box-shadow:0 4px 10px rgba(0,0,0,0.1);
+        border-bottom:1px solid rgba(255,255,255,0.2);
+        z-index: 1;
+    }
+
+    .container {
+        position: relative;
+        width:90%;
+        max-width:1000px;
+        margin:20px auto;
+        z-index: 1;
+    }
+
+    .filters {
+        display:flex;
+        flex-wrap:wrap;
+        gap:10px;
+        margin-bottom:20px;
+        z-index:1;
+        position: relative;
+    }
+
+    input, select, button {
+        padding:12px 15px;
+        font-size:16px;
+        border-radius:10px;
+        border:1px solid #ccc;
+        flex:1;
+        transition:0.2s;
+    }
+
+    input:focus, select:focus { border-color:#007bff; outline:none; }
+    button { 
+        background: #007bff;
+        color:white;
+        border:none;
+        cursor:pointer;
+        font-weight:500;
+        flex:0 0 160px;
+        transition: background 0.2s, transform 0.2s;
+    }
+
+    button:hover { background:#0056b3; transform: translateY(-2px); }
+
+    .card {
+        background: rgba(255,255,255,0.95);
+        padding:20px;
+        margin-bottom:20px;
+        border-radius:15px;
+        box-shadow:0 6px 20px rgba(0,0,0,0.08);
+        transition:transform 0.3s, box-shadow 0.3s;
+        position:relative;
+        z-index:1;
+    }
+
+    .card:hover { transform: translateY(-5px); box-shadow:0 10px 25px rgba(0,0,0,0.15); }
+
+    .title { font-size:22px; font-weight:700; color:#007bff; margin-bottom:6px; }
+    .date { color:#007bff; font-size:14px; margin-bottom:10px; font-weight:500; }
+    .info { font-size:15px; line-height:1.6; color:#333; margin-bottom:12px; }
+    
+    .apply-btn {
+        padding:12px 22px;
+        border:none;
+        background: linear-gradient(90deg,#28a745,#45d26f);
+        color:white;
+        font-weight:600;
+        border-radius:8px;
+        cursor:pointer;
+        text-decoration:none;
+        display:inline-block;
+        transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    .apply-btn:hover { transform: translateY(-2px); box-shadow:0 5px 15px rgba(0,0,0,0.2); }
+
+    footer {
+        text-align:center;
+        padding:25px;
+        color:white;
+        margin-top:40px;
+        font-size:14px;
+        position: relative;
+        z-index:1;
+    }
+
+    /* Dark Mode */
+    body.dark { 
+        background: linear-gradient(-45deg, #0f2027, #203a43, #2c5364, #1c1c1c);
+        color:white; 
+    }
+    body.dark header { background: rgba(255,255,255,0.05); color:#fff; }
+    body.dark input, body.dark select { background:#1e1e1e; color:white; border:1px solid #555; }
+    body.dark button { background:#0d6efd; color:white; }
+    body.dark .card { background:#1e1e1e; color:white; box-shadow:0 6px 20px rgba(255,255,255,0.05); }
+    body.dark .date { color:#66b2ff; }
+    body.dark .title { color:#66b2ff; }
+
+    @media (max-width:600px){ .filters { flex-direction: column; } button { flex:1; } }
+
+</style>
+</head>
+<body>
+
+<header>Daily Walk-ins Update</header>
+
+<div class="container">
+
+    <div class="filters">
+        <input type="text" id="searchBar" placeholder="Search by company / role / location...">
+        <select id="locationFilter">
+            <option value="">All Locations</option>
+        </select>
+        <select id="sortOrder">
+            <option value="upcoming">Upcoming First</option>
+            <option value="recent">Recent First</option>
+        </select>
+        <button onclick="toggleDarkMode()">Dark Mode</button>
+    </div>
+
+    <div id="walkins-list">
+        <div class="card" data-location="Bangalore" data-date="2025-12-10" data-link="https://apply.infosys.com">
+            <div class="title">Infosys Walk-in Drive – Bangalore</div>
+            <div class="date">Date: 10 Dec 2025</div>
+            <div class="info">
+                Role: Software Engineer <br>
+                Experience: Freshers <br>
+                Location: Bangalore
+            </div>
+            <a href="https://apply.infosys.com" target="_blank" class="apply-btn">Apply</a>
+        </div>
+
+        <div class="card" data-location="Hyderabad" data-date="2025-12-06" data-link="https://www.tcs.com/careers">
+            <div class="title">TCS Walk-in Drive – Hyderabad</div>
+            <div class="date">Date: 6 Dec 2025</div>
+            <div class="info">
+                Role: Associate <br>
+                Experience: Freshers <br>
+                Location: Hyderabad
+            </div>
+            <a href="https://www.tcs.com/careers" target="_blank" class="apply-btn">Apply</a>
+        </div>
+
+        <div class="card" data-location="Bangalore" data-date="2025-12-07" data-link="https://www.infosys.com/careers">
+            <div class="title">Infosys Walk-in – Bangalore</div>
+            <div class="date">Date: 7 Dec 2025</div>
+            <div class="info">
+                Role: System Engineer <br>
+                Experience: 0–1 Years <br>
+                Location: Bangalore
+            </div>
+            <a href="https://www.infosys.com/careers" target="_blank" class="apply-btn">Apply</a>
+        </div>
+    </div>
+
+</div>
+
+<script>
+    // Dark mode toggle
+    function toggleDarkMode(){ document.body.classList.toggle('dark'); }
+
+    // Populate location filter dynamically
+    function loadLocations() {
+        const cards = document.querySelectorAll('.card');
+        const locations = new Set();
+        cards.forEach(card => locations.add(card.getAttribute('data-location')));
+        const filter = document.getElementById('locationFilter');
+        locations.forEach(loc => filter.innerHTML += `<option value="${loc}">${loc}</option>`);
+    }
+    loadLocations();
+
+    // Filter & Sort
+    function displayCards() {
+        const searchText = document.getElementById('searchBar').value.toLowerCase();
+        const locationValue = document.getElementById('locationFilter').value;
+        const sortOrder = document.getElementById('sortOrder').value;
+
+        let cards = Array.from(document.querySelectorAll('.card'));
+
+        // Filter
+        cards.forEach(card => {
+            const text = card.textContent.toLowerCase();
+            const loc = card.getAttribute('data-location');
+            card.style.display = (text.includes(searchText) && (!locationValue || loc === locationValue)) ? "block" : "none";
+        });
+
+        // Sort
+        cards = cards.filter(card => card.style.display !== "none");
+        cards.sort((a,b) => {
+            const dateA = new Date(a.getAttribute('data-date'));
+            const dateB = new Date(b.getAttribute('data-date'));
+            return sortOrder === 'recent' ? dateB - dateA : dateA - dateB;
+        });
+
+        const list = document.getElementById('walkins-list');
+        cards.forEach(card => list.appendChild(card));
+    }
+
+    document.getElementById('searchBar').addEventListener('input', displayCards);
+    document.getElementById('locationFilter').addEventListener('change', displayCards);
+    document.getElementById('sortOrder').addEventListener('change', displayCards);
+    displayCards();
+
+    // Generate floating particles
+    function createParticles(num) {
+        for(let i=0;i<num;i++){
+            const p = document.createElement('div');
+            p.className = 'particle';
+            const size = Math.random()*20 + 10;
+            p.style.width = size+'px';
+            p.style.height = size+'px';
+            p.style.left = Math.random()*100+'vw';
+            p.style.top = Math.random()*100+'vh';
+            p.style.background = `rgba(255,255,255,${Math.random()*0.3+0.1})`;
+            p.style.animationDuration = (20+Math.random()*20)+'s';
+            document.body.appendChild(p);
+        }
+    }
+    createParticles(30);
+</script>
+
+<footer>© 2025 Daily Walk-ins | All Rights Reserved</footer>
+
+</body>
+</html>
